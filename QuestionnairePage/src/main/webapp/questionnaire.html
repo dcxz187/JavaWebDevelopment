@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息问卷</title>
+</head>
+<body>
+    <h1>个人信息问卷</h1>
+    <form action="questionnaire" method="post" onsubmit="return submitQuestionnaire()">
+        <table>
+            <tr>
+                <td>姓名:</td>
+                <td><label>
+                    <input type="text" name="name" required>
+                </label></td>
+            </tr>
+            <tr>
+                <td>性别:</td>
+                <td>
+                    <label>
+                        <input type="radio" name="gender" value="男" required>
+                        男
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="女" required>
+                        女
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>年龄:</td>
+                <td><input type="number" name="age" min="1" max="120" required></td>
+            </tr>
+            <tr>
+                <td>院系:</td>
+                <td>
+                    <label>
+                        <select name="department" required>
+                            <option value="">请选择</option>
+                            <option value="光电">光电</option>
+                            <option value="外语">外语</option>
+                            <option value="管理">管理</option>
+                        </select>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>兴趣爱好:</td>
+                <td>
+                    <label>
+                        <input type="checkbox" name="hobbies" value="体育">
+                        体育
+                    </label>
+                    <label>
+                        <input type="checkbox" name="hobbies" value="音乐">
+                        音乐
+                    </label>
+                    <label>
+                        <input type="checkbox" name="hobbies" value="读书">
+                        读书
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="提交">
+                </td>
+            </tr>
+        </table>
+    </form>
+    
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>在线聊天室 - 登录</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-form">
+            <h1>在线聊天室</h1>
+            <form action="login" method="post" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="username">用户名:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="进入聊天室">
+                </div>
+            </form>
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script>
+        // 检查是否有错误参数
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            if (error === 'empty') {
+                document.getElementById('errorMessage').textContent = '用户名不能为空';
+            }
+        });
+        
+        function validateForm() {
+            const username = document.getElementById('username').value.trim();
+            if (!username) {
+                document.getElementById('errorMessage').textContent = '用户名不能为空';
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

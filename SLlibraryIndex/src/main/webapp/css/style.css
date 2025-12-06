@@ -1,0 +1,374 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft YaHei", Arial, sans-serif;
+    background: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* 页面容器 */
+.page-container {
+    width: min(1500px, 98%);
+    background: #ffffff;
+    margin: 20px auto;
+    padding: 0;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    transform: scale(0.8);
+    transform-origin: top center;
+}
+
+/* 头部和导航 */
+.header-logo,
+.nav-banner {
+    width: 100%;
+}
+
+.nav-banner {
+    position: relative;
+}
+
+.header-logo img,
+.nav-banner img {
+    width: 100%;
+    display: block;
+}
+
+/* 导航菜单 */
+.nav-menu {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-around;
+    padding: 0 20px;
+    z-index: 1;
+}
+
+.nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.nav-menu a:hover {
+    color: #ffeb3b;
+    transform: scale(1.05);
+}
+
+/* 服务图标行 */
+.icon-row {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin: 20px 0;
+    gap: 45px;
+}
+
+.icon-row .service-item {
+    position: relative;
+    height: 470px;
+}
+
+.icon-row img {
+    height: 470px;
+    width: auto;
+    object-fit: contain;
+}
+
+.service-links {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1;
+}
+
+.service-links a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    text-align: left;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.service-links a:hover {
+    color: #1a75ff;
+    transform: translateX(5px);
+}
+
+.service-links a::before {
+    content: ">";
+    margin-right: 8px;
+    color: #1a75ff;
+}
+
+/* 公告栏 */
+.notice-board {
+    position: relative;
+    margin-left: auto;
+}
+
+.notice-board img {
+    height: 470px;
+    width: auto;
+    object-fit: contain;
+}
+
+.notice-list {
+    position: absolute;
+    top: 65px;
+    left: 50px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.notice-list a {
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 8px 0;
+    transition: color 0.3s ease;
+}
+
+.notice-list a:hover {
+    color: #1a75ff;
+}
+
+/* 资源行 */
+.resource-row {
+    display: flex;
+    width: 100%;
+    margin: 20px 0;
+    gap: 50px;
+    align-items: center;
+}
+
+.resource-row .slider-container {
+    position: relative;
+    flex: 2;
+    height: 250px;
+}
+
+.resource-row img {
+    height: 260px;
+    width: auto;
+    object-fit: contain;
+}
+
+.resource-search {
+    position: relative;
+    flex: 1;
+    height: 270px;
+    max-width: 30%;
+}
+
+.resource-search img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.search-form {
+    position: absolute;
+    top: 60%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.search-form label {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.search-form input[type="text"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid #1a75ff;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-form input[type="text"]:focus {
+    border-color: #005ae0;
+}
+
+.search-form button {
+    background-color: #1a75ff;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+    background-color: #005ae0;
+}
+
+.search-results {
+    margin-top: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: none;
+}
+
+.search-results.active {
+    display: block;
+}
+
+.search-result-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.resource-row .book-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 80%;
+}
+
+.resource-row .book-display img {
+    height: 230px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.resource-row .book-display img:hover {
+    transform: scale(1.05);
+}
+
+.resource-row img:last-child {
+    margin-left: auto;
+}
+
+/* 数据库区域 */
+.database {
+    width: 100%;
+    margin: 20px 0;
+    position: relative;
+}
+
+.database .base-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.database-grid {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    width: 90%;
+}
+
+.database-grid img {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.database-grid img:hover {
+    transform: scale(1.05);
+}
+
+/* 合作伙伴区域 */
+.partners {
+    width: 100%;
+    margin: 5px 0;
+    position: relative;
+}
+
+.partners img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.partner-links {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-around;
+    padding: 0 40px;
+}
+
+.partner-links a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.partner-links a:hover {
+    color: #1a75ff;
+    transform: scale(1.05);
+}
+
+/* 版权 */
+.footer {
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.footer p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}

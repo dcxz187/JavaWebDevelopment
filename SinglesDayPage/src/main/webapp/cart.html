@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车 - 双十一购物节</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>双十一购物节</h1>
+            <h2>购物车</h2>
+        </header>
+
+        <main>
+            <div id="cartContainer">
+                <table id="cartTable" class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>商品名称</th>
+                            <th>单价</th>
+                            <th>数量</th>
+                            <th>小计</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartItems">
+                        <!-- 购物车项目将通过JavaScript动态加载 -->
+                    </tbody>
+                </table>
+
+                <div class="cart-summary">
+                    <p>总计: <span id="totalAmount">￥0.00</span></p>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a href="products" class="btn btn-primary">继续购物</a>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载购物车数据
+            loadCart();
+        });
+    </script>
+</body>
+</html>
