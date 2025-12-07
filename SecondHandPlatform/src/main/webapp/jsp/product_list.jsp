@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>二手物品交易平台</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 </head>
 <body>
     <div class="container">

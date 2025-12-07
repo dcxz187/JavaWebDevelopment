@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>用户登录 - 二手物品交易平台</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -34,54 +34,7 @@
             <p>还没有账户? <a href="<%=request.getContextPath()%>/register">立即注册</a></p>
         </div>
     </div>
-    
-    <script>
-        // 显示成功消息（如果有）
-        const urlParams = new URLSearchParams(window.location.search);
-        const success = urlParams.get('success');
-        if (success) {
-            document.getElementById('successMessage').textContent = decodeURIComponent(success);
-            document.getElementById('successMessage').style.display = 'block';
-        }
-        
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // 隐藏之前的消息
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
-            
-            // 获取表单数据
-            const formData = new FormData(this);
-            
-            // 发送登录请求
-            fetch('<%=request.getContextPath()%>/login', {
-                method: 'POST',
-                body: new URLSearchParams(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // 显示成功消息
-                    document.getElementById('successMessage').textContent = data.message;
-                    document.getElementById('successMessage').style.display = 'block';
-                    
-                    // 1秒后跳转到首页
-                    setTimeout(() => {
-                        window.location.href = '<%=request.getContextPath()%>/products';
-                    }, 1000);
-                } else {
-                    // 显示错误消息
-                    document.getElementById('errorMessage').textContent = data.message;
-                    document.getElementById('errorMessage').style.display = 'block';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('errorMessage').textContent = '登录时发生错误，请稍后重试';
-                document.getElementById('errorMessage').style.display = 'block';
-            });
-        });
-    </script>
+
+    <script data-context-path="<%=request.getContextPath()%>" src="<%=request.getContextPath()%>/js/login.js"></script>
 </body>
 </html>

@@ -32,6 +32,6 @@ INSERT IGNORE INTO users (username, password) VALUES
 
 INSERT IGNORE INTO products (name, description, price, owner_id) VALUES 
 ('智能手机', '九成新智能手机，几乎没用过', 1200.00, 1),
-('笔记本电脑', '联想ThinkPad笔记本，办公利器', 3500.00, 2),
-('山地自行车', '专业山地自行车，适合户外运动', 2200.00, 3),
+('笔记本电脑', '联想ThinkPad笔记本，办公利器', 3500.00, 1),
+('山地自行车', '专业山地自行车，适合户外运动', 2200.00, 1),
 ('古典吉他', '雅马哈古典吉他，音色优美', 800.00, 1);

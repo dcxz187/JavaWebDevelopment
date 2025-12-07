@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -109,7 +110,9 @@ public class CreateProductServlet extends HttpServlet {
             product.setDescription(description);
             product.setPrice(price);
             product.setOwnerId(user.getId());
-            
+            product.setCreatedAt(LocalDateTime.now());
+            product.setUpdatedAt(LocalDateTime.now());
+
             // 保存到数据库
             if (productDAO.createProduct(product)) {
                 result.put("success", true);

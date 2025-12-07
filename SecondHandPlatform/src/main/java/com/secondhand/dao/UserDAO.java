@@ -84,21 +84,31 @@ public class UserDAO {
         
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            
+
+            System.out.println("准备创建用户: " + user.getUsername());
+
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
             stmt.setTimestamp(3, Timestamp.valueOf(user.getCreatedAt()));
             
+            System.out.println("执行SQL: " + sql);
+            System.out.println("参数: username=" + user.getUsername() + ", password=" + user.getPassword() + ", createdAt=" + user.getCreatedAt());
+            
             int affectedRows = stmt.executeUpdate();
+            System.out.println("受影响的行数: " + affectedRows);
             
             if (affectedRows > 0) {
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     user.setId(generatedKeys.getInt(1));
+                    System.out.println("用户创建成功，ID: " + user.getId());
                     return true;
                 }
+            } else {
+                System.err.println("没有行受到影响，用户创建失败");
             }
         } catch (SQLException e) {
+            System.err.println("createUser 执行出错: " + e.getMessage());
             e.printStackTrace();
         }
         

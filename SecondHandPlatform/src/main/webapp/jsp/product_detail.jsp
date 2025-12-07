@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>${product.name} - 二手物品交易平台</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -48,31 +48,7 @@
             </div>
         </main>
     </div>
-    
-    <script>
-        <c:if test="${isOwner}">
-        document.getElementById('deleteBtn').addEventListener('click', function() {
-            if (confirm('确定要删除这个物品吗？')) {
-                // 发送删除请求
-                fetch('<%=request.getContextPath()%>/deleteProduct?id=${product.id}', {
-                    method: 'POST'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('物品删除成功');
-                        window.location.href = '<%=request.getContextPath()%>/products';
-                    } else {
-                        alert('删除失败: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('删除物品时发生错误，请稍后重试');
-                });
-            }
-        });
-        </c:if>
-    </script>
+
+    <script data-context-path="<%=request.getContextPath()%>" src="<%=request.getContextPath()%>/js/productDetail.js"></script>
 </body>
 </html>

@@ -25,24 +25,4 @@ public class Product {
     
     // 关联的用户对象（非数据库字段）
     private User owner;
-
-    public Product(String name, String description, BigDecimal price, Integer ownerId) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.ownerId = ownerId;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-    
-    public Product(Integer id, String name, String description, BigDecimal price, Integer ownerId, 
-                   LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.ownerId = ownerId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
 }

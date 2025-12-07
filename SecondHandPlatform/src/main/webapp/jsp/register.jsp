@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>用户注册 - 二手物品交易平台</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -39,46 +39,7 @@
             <p>已有账户? <a href="<%=request.getContextPath()%>/login">立即登录</a></p>
         </div>
     </div>
-    
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // 隐藏之前的消息
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
-            
-            // 获取表单数据
-            const formData = new FormData(this);
-            
-            // 发送注册请求
-            fetch('<%=request.getContextPath()%>/register', {
-                method: 'POST',
-                body: new URLSearchParams(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // 显示成功消息
-                    document.getElementById('successMessage').textContent = data.message;
-                    document.getElementById('successMessage').style.display = 'block';
-                    
-                    // 3秒后跳转到登录页面
-                    setTimeout(() => {
-                        window.location.href = '<%=request.getContextPath()%>/login';
-                    }, 3000);
-                } else {
-                    // 显示错误消息
-                    document.getElementById('errorMessage').textContent = data.message;
-                    document.getElementById('errorMessage').style.display = 'block';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('errorMessage').textContent = '注册时发生错误，请稍后重试';
-                document.getElementById('errorMessage').style.display = 'block';
-            });
-        });
-    </script>
+
+    <script data-context-path="<%=request.getContextPath()%>" src="<%=request.getContextPath()%>/js/register.js"></script>
 </body>
 </html>

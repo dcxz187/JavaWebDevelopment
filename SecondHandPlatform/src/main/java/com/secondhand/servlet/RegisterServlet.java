@@ -9,7 +9,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -81,17 +80,19 @@ public class RegisterServlet extends HttpServlet {
             }
             
             // 创建新用户
-            User user = new User();
-            user.setUsername(username);
-            user.setPassword(PasswordUtil.hashPassword(password));
+            User user = new User(username, PasswordUtil.hashPassword(password));
             
             // 保存到数据库
-            if (userDAO.createUser(user)) {
+            System.out.println("尝试创建用户: " + username + "，创建时间: " + user.getCreatedAt());
+            boolean createResult = userDAO.createUser(user);
+            if (createResult) {
                 result.put("success", true);
                 result.put("message", "注册成功");
+                System.out.println("用户创建成功: " + username);
             } else {
                 result.put("success", false);
                 result.put("message", "注册失败，请稍后重试");
+                System.err.println("用户创建失败: " + username);
             }
             
             response.getWriter().write(new Gson().toJson(result));
@@ -99,6 +100,8 @@ public class RegisterServlet extends HttpServlet {
             result.put("success", false);
             result.put("message", "注册时发生错误: " + e.getMessage());
             response.getWriter().write(new Gson().toJson(result));
+            System.err.println("注册时发生异常:");
+            e.printStackTrace();
         }
     }
 }

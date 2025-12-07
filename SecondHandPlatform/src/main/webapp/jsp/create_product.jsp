@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>发布物品 - 二手物品交易平台</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 </head>
 <body>
     <div class="container">
@@ -56,49 +56,7 @@
             </form>
         </div>
     </div>
-    
-    <script>
-        document.getElementById('createProductForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // 隐藏之前的消息
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
-            
-            // 获取表单数据
-            const formData = new FormData(this);
-            
-            // 发送发布物品请求
-            fetch('<%=request.getContextPath()%>/createProduct', {
-                method: 'POST',
-                body: new URLSearchParams(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // 显示成功消息
-                    document.getElementById('successMessage').textContent = data.message;
-                    document.getElementById('successMessage').style.display = 'block';
-                    
-                    // 清空表单
-                    document.getElementById('createProductForm').reset();
-                    
-                    // 2秒后跳转到首页
-                    setTimeout(() => {
-                        window.location.href = '<%=request.getContextPath()%>/products';
-                    }, 2000);
-                } else {
-                    // 显示错误消息
-                    document.getElementById('errorMessage').textContent = data.message;
-                    document.getElementById('errorMessage').style.display = 'block';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('errorMessage').textContent = '发布物品时发生错误，请稍后重试';
-                document.getElementById('errorMessage').style.display = 'block';
-            });
-        });
-    </script>
+
+    <script data-context-path="<%=request.getContextPath()%>" src="<%=request.getContextPath()%>/js/createProduct.js"></script>
 </body>
 </html>
