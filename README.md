@@ -93,6 +93,7 @@ SecondHandPlatform/
 ### 3. OnlineChatRoom (在线聊天室)
 
 一个简单的在线聊天室应用。
+
 访问地址：http://10.100.164.35:8080/OnlineChatRoom/
 
 #### 功能特点
@@ -109,6 +110,7 @@ SecondHandPlatform/
 ### 4. QuestionnaireApp (问卷调查页面)
 
 一个用于创建和填写问卷调查的Web应用。
+
 访问地址：http://10.100.164.35:8080/QuestionnaireApp/
 
 #### 功能特点
@@ -124,6 +126,7 @@ SecondHandPlatform/
 ### 5. SLlibraryIndex (图书馆索引系统)
 
 模拟图书馆网站首页
+
 访问地址：http://10.100.164.35:8080/SLlibraryIndex/
 
 #### 功能特点
@@ -147,6 +150,7 @@ SecondHandPlatform/
 ### 6. SinglesDayShopping (双十一购物页面)
 
 一个模拟双十一购物节的电商网站页面。
+
 访问地址：http://10.100.164.35:8080/SinglesDayShopping/
 
 #### 功能特点
