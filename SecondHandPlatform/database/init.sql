@@ -26,9 +26,7 @@ CREATE TABLE IF NOT EXISTS products (
 
 -- 插入测试数据
 INSERT IGNORE INTO users (username, password) VALUES 
-('admin', '$2a$10$wHjp1ZW.19Ly9/b5/Fq1ZOc51i6oVHSvW6LwRpiG5e3CVsUt2zBkG'), -- 密码: admin123
-('user1', '$2a$10$rZ7znSJpr5U9GsNhAH.0.uwtxNaZjME/qjq0aftBbhC1cG3Q9DpEq'), -- 密码: password1
-('user2', '$2a$10$rZ7znSJpr5U9GsNhAH.0.uwtxNaZjME/qjq0aftBbhC1cG3Q9DpEq'); -- 密码: password1
+('admin', '$2a$10$656aWq2wGrMMc4NFhAzHf.YMVVyuQ8TbqpApfis4O4mmULtFZXMSm'); -- 密码: 123456
 
 INSERT IGNORE INTO products (name, description, price, owner_id) VALUES 
 ('智能手机', '九成新智能手机，几乎没用过', 1200.00, 1),

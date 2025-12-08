@@ -4,20 +4,67 @@
 
 ## 项目列表
 
-### 1. 结构完整合理的简易二手物品发布平台
-要求：
-有多余物品可以发布二手物品信息
-需要买的可以查找二手物品，实现模糊匹配
-注册用户账号，账号加密存储，不能明文
-删除修改物品
+### 1. SecondHandPlatform (二手物品交易平台)
 
-使用mvc架构模式
-View层用jsp
-Controller层用servlet
-DAO层封装数据库操作，db工具类
-数据库用mysql
+一个基于Java Web技术构建的二手物品交易平台，满足课程作业要求。
 
-### 1. ForumSystem (论坛系统)
+访问地址：http://10.100.164.35:8080/SecondHandPlatform/
+
+#### 功能特点
+- 用户注册和登录功能（密码加密存储）
+- 二手物品发布、浏览、搜索功能
+- 物品信息的增删改查操作
+- 模糊匹配搜索功能
+- MVC架构模式
+
+#### 技术栈
+- Java Servlet/JSP
+- JSTL标签库
+- MySQL数据库
+- HikariCP数据库连接池
+- BCrypt密码加密
+- Gson (JSON处理)
+- 原生HTML/CSS/JavaScript
+
+#### 项目结构
+
+```
+SecondHandPlatform/
+├── src/main/java/com/secondhand/
+│   ├── model/              # 实体类
+│   ├── dao/                # 数据访问对象
+│   ├── servlet/            # 控制器
+│   └── util/               # 工具类
+├── src/main/webapp/
+│   ├── WEB-INF/
+│   ├── css/                # 样式文件
+│   ├── js/                 # JavaScript文件
+│   └── jsp/                # JSP页面
+└── database/               # 数据库初始化脚本
+```
+
+#### 数据库设计
+
+ 用户表 (users)
+- id: 用户ID（主键，自增）
+- username: 用户名（唯一，非空）
+- password: 密码（加密存储，非空）
+- created_at: 创建时间
+
+ 物品表 (products)
+- id: 物品ID（主键，自增）
+- name: 物品名称（非空）
+- description: 物品描述
+- price: 价格
+- owner_id: 所有者ID（外键，关联users表）
+- created_at: 创建时间
+- updated_at: 更新时间
+
+#### 默认测试账户
+- 用户名: admin, 密码: 123456
+- 
+
+### 2. ForumSystem (论坛系统)
 
 一个基于Java Web技术构建的在线论坛系统。
 
@@ -43,8 +90,7 @@ DAO层封装数据库操作，db工具类
 - **Servlet层**: 多个控制器处理不同请求(登录、注册、帖子创建、回复等)
 - **View层**: JSP页面展示数据
 
-
-### 2. OnlineChatRoom (在线聊天室)
+### 3. OnlineChatRoom (在线聊天室)
 
 一个简单的在线聊天室应用。
 访问地址：http://10.100.164.35:8080/OnlineChatRoom/
@@ -60,7 +106,7 @@ DAO层封装数据库操作，db工具类
 - HTML/CSS/JavaScript
 - AJAX通信
 
-### 3. QuestionnaireApp (问卷调查页面)
+### 4. QuestionnaireApp (问卷调查页面)
 
 一个用于创建和填写问卷调查的Web应用。
 访问地址：http://10.100.164.35:8080/QuestionnaireApp/
@@ -75,7 +121,7 @@ DAO层封装数据库操作，db工具类
 - Gson (JSON处理)
 - HTML/CSS/JavaScript
 
-### 4. SLlibraryIndex (图书馆索引系统)
+### 5. SLlibraryIndex (图书馆索引系统)
 
 模拟图书馆网站首页
 访问地址：http://10.100.164.35:8080/SLlibraryIndex/
@@ -98,7 +144,7 @@ DAO层封装数据库操作，db工具类
 - 原生HTML/CSS/JavaScript
 - AJAX异步请求
 
-### 5. SinglesDayShopping (双十一购物页面)
+### 6. SinglesDayShopping (双十一购物页面)
 
 一个模拟双十一购物节的电商网站页面。
 访问地址：http://10.100.164.35:8080/SinglesDayShopping/

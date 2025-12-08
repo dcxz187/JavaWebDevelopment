@@ -36,13 +36,13 @@ public class DatabaseConnection {
             // 从环境变量或默认值获取数据库配置，添加时区参数
             String jdbcUrl = System.getenv("DB_URL") != null ? 
                 System.getenv("DB_URL") : 
-                "jdbc:mysql://localhost:3306/secondhand_platform?useSSL=false&serverTimezone=" + systemTimeZone + "&allowPublicKeyRetrieval=true";
-                
-            String username = System.getenv("DB_USERNAME") != null ? 
-                System.getenv("DB_USERNAME") : "root";
+                "jdbc:mysql://10.100.164.35:3306/secondhand_platform?useSSL=false&serverTimezone=" + systemTimeZone + "&allowPublicKeyRetrieval=true";
+
+            String username = System.getenv("DB_USERNAME") != null ?
+                System.getenv("DB_USERNAME") : "remote";
                 
             String password = System.getenv("DB_PASSWORD") != null ? 
-                System.getenv("DB_PASSWORD") : "123456";
+                System.getenv("DB_PASSWORD") : "StrongPassword123!";
             
             config.setJdbcUrl(jdbcUrl);
             config.setUsername(username);
