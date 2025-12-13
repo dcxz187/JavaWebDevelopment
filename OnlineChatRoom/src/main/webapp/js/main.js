@@ -43,6 +43,9 @@ function displayMessages(data) {
         li.textContent = username;
         if (username === data.currentUser) {
             li.innerHTML += ' (你)';
+        } else {
+            // 添加私聊链接
+            li.innerHTML += ` <a href="private-chat?user=${encodeURIComponent(username)}" style="font-size: 0.8em;">[私聊]</a>`;
         }
         onlineUsersList.appendChild(li);
     });
@@ -51,15 +54,22 @@ function displayMessages(data) {
     messagesContainer.innerHTML = '';
     data.messages.forEach(message => {
         const messageDiv = document.createElement('div');
-        messageDiv.className = 'message';
         
-        const isOwnMessage = message.username === data.currentUser;
-        
-        messageDiv.innerHTML = `
-            <div class="username">${message.username}${isOwnMessage ? ' (你)' : ''}</div>
-            <div class="timestamp">${message.timestamp}</div>
-            <div class="content">${escapeHtml(message.content)}</div>
-        `;
+        // 根据消息类型设置样式
+        if (message.type === "system") {
+            messageDiv.className = 'system-message';
+            messageDiv.innerHTML = `<strong>${escapeHtml(message.content)}</strong>`;
+        } else {
+            messageDiv.className = 'message';
+            
+            const isOwnMessage = message.username === data.currentUser;
+            
+            messageDiv.innerHTML = `
+                <div class="username">${message.username}${isOwnMessage ? ' (你)' : ''}</div>
+                <div class="timestamp">${message.timestamp}</div>
+                <div class="content">${escapeHtml(message.content)}</div>
+            `;
+        }
         
         messagesContainer.appendChild(messageDiv);
     });
@@ -154,3 +164,34 @@ function escapeHtml(text) {
     
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
+
+// 心跳检测函数
+function sendHeartbeat() {
+    fetch('api/heartbeat')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                // 心跳失败，可能是会话过期
+                console.warn('Heartbeat failed:', data.message);
+                if (data.message && data.message.includes('未登录')) {
+                    window.location.href = 'login';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Heartbeat error:', error);
+        });
+}
+
+// 开始心跳检测
+function startHeartbeat() {
+    // 每30秒发送一次心跳
+    setInterval(sendHeartbeat, 30000);
+    // 立即发送第一次心跳
+    sendHeartbeat();
+}
+
+// 在用户关闭页面前发送退出请求
+window.addEventListener('beforeunload', function(e) {
+    navigator.sendBeacon('logout', '');
+});

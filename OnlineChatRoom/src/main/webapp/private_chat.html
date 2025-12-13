@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>私聊</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .private-chat-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .private-chat-header {
+            background-color: #28a745;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .private-chat-header h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        
+        .back-link {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .private-messages {
+            height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        
+        .private-message-input {
+            display: flex;
+            padding: 20px;
+            border-top: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+        }
+        
+        .private-message-input textarea {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+            height: 60px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .private-message-input button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .private-message-input button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="private-chat-container">
+            <div class="private-chat-header">
+                <h1>与 <span id="recipientName"></span> 的私聊</h1>
+                <a href="chat" class="back-link">返回聊天室</a>
+            </div>
+            
+            <div class="private-messages" id="privateMessagesContainer">
+                <!-- 私聊消息将通过JavaScript动态加载 -->
+            </div>
+            
+            <div class="private-message-input">
+                <label for="privateMessageInput"></label>
+                <textarea id="privateMessageInput" placeholder="输入私聊消息..." onkeydown="handlePrivateKeyDown(event)"></textarea>
+                <button onclick="sendPrivateMessage()">发送</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script>
+        let recipient = '';
+        
+        // 页面加载完成后获取URL参数
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            recipient = urlParams.get('user');
+            
+            if (recipient) {
+                document.getElementById('recipientName').textContent = recipient;
+                loadAndDisplayPrivateMessages();
+                setInterval(loadAndDisplayPrivateMessages, 5000); // 每5秒刷新一次私聊消息
+            } else {
+                alert('未指定聊天对象');
+                window.location.href = 'chat';
+            }
+        });
+        
+        // 加载并显示私聊消息
+        function loadAndDisplayPrivateMessages() {
+            if (!recipient) return;
+            
+            fetch(`api/private-messages?recipient=${encodeURIComponent(recipient)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayPrivateMessages(data.data);
+                    } else {
+                        console.error('获取私聊消息失败:', data.message);
+                        if (data.message && data.message.includes('未登录')) {
+                            window.location.href = 'login';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('加载私聊消息时出错:', error);
+                });
+        }
+        
+        // 显示私聊消息
+        function displayPrivateMessages(data) {
+            const messagesContainer = document.getElementById('privateMessagesContainer');
+            if (!messagesContainer) return;
+            
+            messagesContainer.innerHTML = '';
+            
+            data.messages.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                
+                const isOwnMessage = message.username === data.currentUser;
+                
+                messageDiv.innerHTML = `
+                    <div class="username">${message.username}${isOwnMessage ? ' (你)' : ''}</div>
+                    <div class="timestamp">${message.timestamp}</div>
+                    <div class="content">${escapeHtml(message.content)}</div>
+                `;
+                
+                messagesContainer.appendChild(messageDiv);
+            });
+            
+            // 滚动到最新消息
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        // 发送私聊消息
+        function sendPrivateMessage() {
+            const messageInput = document.getElementById('privateMessageInput');
+            const content = messageInput.value.trim();
+            
+            if (!content || !recipient) {
+                return;
+            }
+            
+            // 创建URL编码的表单数据
+            const params = new URLSearchParams();
+            params.append('recipient', recipient);
+            params.append('content', content);
+            
+            // 发送私聊消息
+            fetch('api/send-private', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: params
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 清空输入框
+                    messageInput.value = '';
+                    // 重新加载消息
+                    loadAndDisplayPrivateMessages();
+                } else {
+                    console.error('发送私聊消息失败:', data.message);
+                    alert('发送私聊消息失败: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('发送私聊消息时出错:', error);
+                alert('发送私聊消息时出错');
+            });
+        }
+        
+        // 处理键盘事件
+        function handlePrivateKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendPrivateMessage();
+            }
+        }
+    </script>
+</body>
+</html>

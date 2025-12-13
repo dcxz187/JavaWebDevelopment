@@ -3,7 +3,6 @@ package com.chatroom.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serial;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +17,10 @@ import jakarta.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.chatroom.model.ApiResponse;
+import com.chatroom.model.ChatMessage;
 
-@WebServlet("/api/messages")
-public class MessagesServlet extends HttpServlet {
+@WebServlet("/api/private-messages")
+public class PrivateMessagesServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
     
@@ -44,19 +44,27 @@ public class MessagesServlet extends HttpServlet {
             return;
         }
         
+        String recipient = request.getParameter("recipient");
+        if (recipient == null || recipient.trim().isEmpty()) {
+            ApiResponse apiResponse = new ApiResponse(false, "接收者不能为空", null);
+            String jsonResponse = gson.toJson(apiResponse);
+            
+            PrintWriter out = response.getWriter();
+            out.print(jsonResponse);
+            out.flush();
+            return;
+        }
+        
+        // 获取私聊消息
+        List<ChatMessage> privateMessages = MessageStore.getPrivateMessages(username, recipient);
+        
         // 构造返回数据
         Map<String, Object> data = new HashMap<>();
-        data.put("messages", MessageStore.getMessages());
-        
-        @SuppressWarnings("unchecked")
-        List<String> onlineUsers = (List<String>) getServletContext().getAttribute("onlineUsers");
-        if (onlineUsers == null) {
-            onlineUsers = new ArrayList<>();
-        }
-        data.put("onlineUsers", onlineUsers);
+        data.put("messages", privateMessages);
         data.put("currentUser", username);
+        data.put("recipient", recipient);
         
-        ApiResponse apiResponse = new ApiResponse(true, "获取消息成功", data);
+        ApiResponse apiResponse = new ApiResponse(true, "获取私聊消息成功", data);
         String jsonResponse = gson.toJson(apiResponse);
         
         PrintWriter out = response.getWriter();

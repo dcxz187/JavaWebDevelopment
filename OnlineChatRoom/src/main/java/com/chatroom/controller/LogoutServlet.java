@@ -1,6 +1,7 @@
 package com.chatroom.controller;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
+    @Serial
     private static final long serialVersionUID = 1L;
     
     @Override

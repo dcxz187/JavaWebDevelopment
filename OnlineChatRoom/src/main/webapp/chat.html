@@ -41,6 +41,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadAndDisplayMessages();
             setInterval(loadAndDisplayMessages, 10000);
+            
+            // 开始心跳检测
+            startHeartbeat();
         });
     </script>
 </body>

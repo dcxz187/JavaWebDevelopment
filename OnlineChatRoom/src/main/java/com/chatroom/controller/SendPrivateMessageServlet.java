@@ -16,8 +16,8 @@ import com.google.gson.Gson;
 import com.chatroom.model.ApiResponse;
 import com.chatroom.model.ChatMessage;
 
-@WebServlet("/api/send")
-public class SendMessageServlet extends HttpServlet {
+@WebServlet("/api/send-private")
+public class SendPrivateMessageServlet extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
     
@@ -41,7 +41,19 @@ public class SendMessageServlet extends HttpServlet {
             return;
         }
         
+        String recipient = request.getParameter("recipient");
         String content = request.getParameter("content");
+        
+        if (recipient == null || recipient.trim().isEmpty()) {
+            ApiResponse apiResponse = new ApiResponse(false, "接收者不能为空", null);
+            String jsonResponse = gson.toJson(apiResponse);
+            
+            PrintWriter out = response.getWriter();
+            out.print(jsonResponse);
+            out.flush();
+            return;
+        }
+        
         if (content == null || content.trim().isEmpty()) {
             ApiResponse apiResponse = new ApiResponse(false, "消息内容不能为空", null);
             String jsonResponse = gson.toJson(apiResponse);
@@ -52,14 +64,10 @@ public class SendMessageServlet extends HttpServlet {
             return;
         }
         
-        // 创建消息对象并添加到消息列表
-        ChatMessage message = new ChatMessage("public", username, content);
-        synchronized (MessageStore.getMessages()) {
-            MessageStore.getMessages().add(message);
-            // 限制消息数量，只保留最新的100条消息
-            if (MessageStore.getMessages().size() > 100) {
-                MessageStore.getMessages().remove(0);
-            }
+        // 创建私聊消息对象并添加到私聊消息列表
+        ChatMessage message = new ChatMessage("private", username, recipient, content);
+        synchronized (MessageStore.getPrivateMessages(username, recipient)) {
+            MessageStore.addPrivateMessage(message);
         }
         
         ApiResponse apiResponse = new ApiResponse(true, "发送成功", null);

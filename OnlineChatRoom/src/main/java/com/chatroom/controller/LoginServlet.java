@@ -2,6 +2,8 @@ package com.chatroom.controller;
 
 import java.io.IOException;
 
+import com.chatroom.model.ChatMessage;
+import com.chatroom.model.MessageStore;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,11 +11,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    @Serial
     private static final long serialVersionUID = 1L;
     
     @Override
@@ -45,8 +49,21 @@ public class LoginServlet extends HttpServlet {
                 getServletContext().setAttribute("onlineUsers", onlineUsers);
             }
             
-            if (!onlineUsers.contains(username)) {
+            // 检查用户是否首次登录
+            boolean isFirstLogin = !onlineUsers.contains(username);
+            
+            if (isFirstLogin) {
                 onlineUsers.add(username);
+                
+                // 发送系统消息通知所有用户有新用户加入
+                ChatMessage systemMessage = new ChatMessage("system", "System", username + " 加入了聊天室");
+                synchronized (MessageStore.getMessages()) {
+                    MessageStore.getMessages().add(systemMessage);
+                    // 限制消息数量
+                    if (MessageStore.getMessages().size() > 100) {
+                        MessageStore.getMessages().remove(0);
+                    }
+                }
             }
         }
         
