@@ -1,6 +1,11 @@
 // 页面加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
     console.log("聊天室系统已加载");
+    
+    // 检查是否为私聊页面
+    if (document.getElementById('privateMessagesContainer')) {
+        initializePrivateChat();
+    }
 });
 
 // 获取消息数据的函数
@@ -143,7 +148,7 @@ function handleKeyDown(event) {
 // 退出登录
 function logout() {
     if (confirm('确定要退出聊天室吗？')) {
-        // 清除会话并重定向到登录页面
+        // 发送退出请求
         fetch('logout', {
             method: 'POST'
         }).finally(() => {
@@ -189,4 +194,120 @@ function startHeartbeat() {
     setInterval(sendHeartbeat, 30000);
     // 立即发送第一次心跳
     sendHeartbeat();
+}
+
+
+let recipient = '';
+
+// 初始化私聊页面
+function initializePrivateChat() {
+    const urlParams = new URLSearchParams(window.location.search);
+    recipient = urlParams.get('user');
+    
+    if (recipient) {
+        document.getElementById('recipientName').textContent = recipient;
+        loadAndDisplayPrivateMessages();
+        setInterval(loadAndDisplayPrivateMessages, 5000); // 每5秒刷新一次私聊消息
+        
+        // 开始心跳检测
+        startHeartbeat();
+    } else {
+        alert('未指定聊天对象');
+        window.location.href = 'chat';
+    }
+}
+
+// 加载并显示私聊消息
+function loadAndDisplayPrivateMessages() {
+    if (!recipient) return;
+    
+    fetch(`api/private-messages?recipient=${encodeURIComponent(recipient)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayPrivateMessages(data.data);
+            } else {
+                console.error('获取私聊消息失败:', data.message);
+                if (data.message && data.message.includes('未登录')) {
+                    window.location.href = 'login';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('加载私聊消息时出错:', error);
+        });
+}
+
+// 显示私聊消息
+function displayPrivateMessages(data) {
+    const messagesContainer = document.getElementById('privateMessagesContainer');
+    if (!messagesContainer) return;
+    
+    messagesContainer.innerHTML = '';
+    
+    data.messages.forEach(message => {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message';
+        
+        const isOwnMessage = message.username === data.currentUser;
+        
+        messageDiv.innerHTML = `
+            <div class="username">${message.username}${isOwnMessage ? ' (你)' : ''}</div>
+            <div class="timestamp">${message.timestamp}</div>
+            <div class="content">${escapeHtml(message.content)}</div>
+        `;
+        
+        messagesContainer.appendChild(messageDiv);
+    });
+    
+    // 滚动到最新消息
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// 发送私聊消息
+function sendPrivateMessage() {
+    const messageInput = document.getElementById('privateMessageInput');
+    const content = messageInput.value.trim();
+    
+    if (!content || !recipient) {
+        return;
+    }
+    
+    // 创建URL编码的表单数据
+    const params = new URLSearchParams();
+    params.append('recipient', recipient);
+    params.append('content', content);
+    
+    // 发送私聊消息
+    fetch('api/send-private', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: params
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // 清空输入框
+            messageInput.value = '';
+            // 重新加载消息
+            loadAndDisplayPrivateMessages();
+        } else {
+            console.error('发送私聊消息失败:', data.message);
+            alert('发送私聊消息失败: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('发送私聊消息时出错:', error);
+        alert('发送私聊消息时出错');
+    });
+}
+
+// 处理私聊页面键盘事件
+function handlePrivateKeyDown(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendPrivateMessage();
+    }
 }

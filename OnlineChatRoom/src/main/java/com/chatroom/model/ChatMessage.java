@@ -28,6 +28,7 @@ public class ChatMessage {
         this.type = type;
         this.username = username;
         this.recipient = recipient;
+        this.content = content;
         this.timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }

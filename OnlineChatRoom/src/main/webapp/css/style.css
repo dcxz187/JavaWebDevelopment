@@ -202,3 +202,74 @@ body {
     font-style: italic;
     margin: 10px 0;
 }
+
+/* 私聊页面样式 */
+.private-chat-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.private-chat-header {
+    background-color: #28a745;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.private-chat-header h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.back-link {
+    color: white;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.private-messages {
+    height: 500px;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.private-message-input {
+    display: flex;
+    padding: 20px;
+    border-top: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+}
+
+.private-message-input textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+    height: 60px;
+    font-family: Arial, sans-serif;
+}
+
+.private-message-input button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.private-message-input button:hover {
+    background-color: #218838;
+}
