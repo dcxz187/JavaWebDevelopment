@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.chatroom.model.ChatMessage;
 import com.chatroom.model.MessageStore;
+import com.chatroom.util.SessionManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -39,6 +40,9 @@ public class LoginServlet extends HttpServlet {
         // 将用户名保存到session中
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
+        
+        // 将会话添加到会话管理器中
+        SessionManager.addUserSession(username, session);
         
         // 添加用户到在线用户列表
         synchronized (getServletContext()) {

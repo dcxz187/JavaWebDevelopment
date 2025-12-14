@@ -190,8 +190,3 @@ function startHeartbeat() {
     // 立即发送第一次心跳
     sendHeartbeat();
 }
-
-// 在用户关闭页面前发送退出请求
-window.addEventListener('beforeunload', function(e) {
-    navigator.sendBeacon('logout', '');
-});

@@ -2,6 +2,7 @@ package com.chatroom.listener;
 
 import com.chatroom.model.ChatMessage;
 import com.chatroom.model.MessageStore;
+import com.chatroom.util.SessionManager;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSessionEvent;
@@ -31,26 +32,34 @@ public class UserSessionListener implements HttpSessionListener {
         if (username != null) {
             System.out.println("User logged out: " + username);
             
-            // 从在线用户列表中移除用户
-            @SuppressWarnings("unchecked")
-            List<String> onlineUsers = (List<String>) context.getAttribute("onlineUsers");
-            if (onlineUsers != null) {
-                synchronized (onlineUsers) {
-                    onlineUsers.remove(username);
+            // 从会话管理器中移除特定会话
+            SessionManager.removeUserSession(username, se.getSession());
+            
+            // 检查用户是否还有其他会话
+            if (SessionManager.getUserSessionCount(username) == 0) {
+                // 用户没有更多会话，从在线用户列表中移除用户
+                @SuppressWarnings("unchecked")
+                List<String> onlineUsers = (List<String>) context.getAttribute("onlineUsers");
+                if (onlineUsers != null) {
+                    synchronized (onlineUsers) {
+                        if (onlineUsers.contains(username)) {
+                            onlineUsers.remove(username);
+                            
+                            // 创建系统消息通知其他用户
+                            ChatMessage systemMessage = new ChatMessage("system", "System", username + " 离开了聊天室");
+                            synchronized (MessageStore.getMessages()) {
+                                MessageStore.getMessages().add(systemMessage);
+                                // 限制消息数量
+                                if (MessageStore.getMessages().size() > 100) {
+                                    MessageStore.getMessages().remove(0);
+                                }
+                            }
+                            
+                            System.out.println("Broadcasted logout message for user: " + username);
+                        }
+                    }
                 }
             }
-            
-            // 创建系统消息通知其他用户
-            ChatMessage systemMessage = new ChatMessage("system", "System", username + " 离开了聊天室");
-            synchronized (MessageStore.getMessages()) {
-                MessageStore.getMessages().add(systemMessage);
-                // 限制消息数量
-                if (MessageStore.getMessages().size() > 100) {
-                    MessageStore.getMessages().remove(0);
-                }
-            }
-            
-            System.out.println("Broadcasted logout message for user: " + username);
         }
     }
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serial;
 import java.util.List;
 
+import com.chatroom.util.SessionManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,6 +24,9 @@ public class LogoutServlet extends HttpServlet {
         if (session != null) {
             String username = (String) session.getAttribute("username");
             if (username != null) {
+                // 从会话管理器中移除用户会话
+                SessionManager.removeUserSessions(username);
+                
                 // 从在线用户列表中移除用户
                 @SuppressWarnings("unchecked")
                 List<String> onlineUsers = (List<String>) getServletContext().getAttribute("onlineUsers");

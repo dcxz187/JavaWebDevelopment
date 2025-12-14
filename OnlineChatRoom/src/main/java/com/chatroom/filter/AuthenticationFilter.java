@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 @WebFilter("/*")
 public class AuthenticationFilter implements Filter {
@@ -58,6 +59,23 @@ public class AuthenticationFilter implements Filter {
                 return;
             } else {
                 // 对页面请求重定向到登录页面
+                httpResponse.sendRedirect(contextPath + "/login");
+                return;
+            }
+        }
+        
+        // 如果用户已登录，但不在在线用户列表中，也需要重新登录
+        if (username != null && 
+            (uri.startsWith(contextPath + "/chat") || 
+             uri.startsWith(contextPath + "/api/"))) {
+            
+            @SuppressWarnings("unchecked")
+            List<String> onlineUsers = (List<String>) httpRequest.getServletContext().getAttribute("onlineUsers");
+            if (onlineUsers == null || !onlineUsers.contains(username)) {
+                // 用户已登录但不在在线列表中，清除会话并重定向到登录页面
+                if (session != null) {
+                    session.invalidate();
+                }
                 httpResponse.sendRedirect(contextPath + "/login");
                 return;
             }
