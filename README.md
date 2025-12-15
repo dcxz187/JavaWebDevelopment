@@ -4,7 +4,37 @@
 
 ## 项目列表
 
-### 1. SecondHandPlatform (二手物品交易平台)
+### 1. OnlineChatRoom (在线聊天室)
+
+一个功能丰富的在线聊天室应用，支持公聊和私聊功能。
+
+访问地址：http://10.100.164.35:8080/OnlineChatRoom2.0/
+
+#### 功能特点
+- 用户登录和会话管理
+- 实时公共聊天和私聊功能
+- 在线用户列表显示
+- 心跳检测保持连接状态
+- 系统消息通知（用户加入/离开）
+- XSS防护
+- 私聊功能
+- 自动消息轮询更新
+
+#### 技术栈
+- Java Servlet
+- Gson (JSON处理)
+- Lombok (简化Java代码)
+- HTML/CSS/JavaScript
+- AJAX通信
+
+#### 核心组件
+- **Controller层**: 多个Servlet控制器处理不同请求（登录、聊天、消息发送等）
+- **Filter层**: 身份验证过滤器确保安全访问
+- **Listener层**: 会话监听器管理用户连接状态
+- **Model层**: 消息和响应模型
+- **Util层**: 会话管理工具
+
+### 2. SecondHandPlatform (二手物品交易平台)
 
 一个基于Java Web技术构建的二手物品交易平台，满足课程作业要求。
 
@@ -64,7 +94,7 @@ SecondHandPlatform/
 - 用户名: admin, 密码: 123456
 - 
 
-### 2. ForumSystem (论坛系统)
+### 3. ForumSystem (论坛系统)
 
 一个基于Java Web技术构建的在线论坛系统。
 
@@ -90,22 +120,7 @@ SecondHandPlatform/
 - **Servlet层**: 多个控制器处理不同请求(登录、注册、帖子创建、回复等)
 - **View层**: JSP页面展示数据
 
-### 3. OnlineChatRoom (在线聊天室)
 
-一个简单的在线聊天室应用。
-
-访问地址：http://10.100.164.35:8080/OnlineChatRoom/
-
-#### 功能特点
-- 实时消息传递
-- 用户登录
-- 聊天界面
-
-#### 技术栈
-- Java Servlet
-- Gson (JSON处理)
-- HTML/CSS/JavaScript
-- AJAX通信
 
 ### 4. QuestionnaireApp (问卷调查页面)
 
