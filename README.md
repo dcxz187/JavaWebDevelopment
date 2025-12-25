@@ -4,7 +4,41 @@
 
 ## 项目列表
 
-### 1. OnlineChatRoom (在线聊天室)
+### 1. ForumSystem (论坛系统)
+
+一个基于Spring框架重构的在线论坛系统，支持用户注册登录、帖子发布和回复功能。
+
+访问地址：http://10.100.164.35:8080/ForumSystem-2.0/
+
+#### 功能特点
+- 用户注册和登录功能
+- 验证码验证机制
+- 帖子发布和管理
+- 回复功能
+- MVC架构模式
+- 基于Spring框架实现
+- 支持时间格式化显示
+
+#### 技术栈
+- Java Servlet/JSP
+- Spring Framework (Spring MVC, Spring IoC)
+- JSTL标签库
+- Jackson (JSON处理)
+- Jakarta EE
+
+#### 主要组件
+- **Model层**: User(用户), Thread(主题帖), Reply(回复)
+- **DAO层**: DataStore(数据存储)
+- **Controller层**: 多个控制器处理不同请求(认证、验证码、论坛功能等)
+- **Service层**: 业务逻辑处理
+- **View层**: JSP页面展示数据
+
+#### 测试用账号
+- 用户名: admin
+- 密码: admin123
+
+
+### 2. OnlineChatRoom (在线聊天室)
 
 一个功能丰富的在线聊天室应用，支持公聊和私聊功能。
 
@@ -34,7 +68,7 @@
 - **Model层**: 消息和响应模型
 - **Util层**: 会话管理工具
 
-### 2. SecondHandPlatform (二手物品交易平台)
+### 3. SecondHandPlatform (二手物品交易平台)
 
 一个基于Java Web技术构建的二手物品交易平台，满足课程作业要求。
 
@@ -93,34 +127,6 @@ SecondHandPlatform/
 #### 默认测试账户
 - 用户名: admin, 密码: 123456
 - 
-
-### 3. ForumSystem (论坛系统)
-
-一个基于Java Web技术构建的在线论坛系统。
-
-访问地址：http://10.100.164.35:8080/ForumSystem/
-
-#### 功能特点
-- 用户注册和登录功能
-- 验证码验证机制
-- 帖子发布和管理
-- 回复功能
-- MVC架构模式
-- 使用纯Java Web技术实现，无第三方框架
-
-#### 技术栈
-- Java Servlet/JSP
-- JSTL标签库
-- Gson (JSON处理)
-- Jakarta EE
-
-#### 主要组件
-- **Model层**: User(用户), Thread(主题帖), Reply(回复)
-- **DAO层**: DataStore(数据存储)
-- **Servlet层**: 多个控制器处理不同请求(登录、注册、帖子创建、回复等)
-- **View层**: JSP页面展示数据
-
-
 
 ### 4. QuestionnaireApp (问卷调查页面)
 
