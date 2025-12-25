@@ -4,6 +4,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Reply implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -11,6 +13,7 @@ public class Reply implements Serializable {
     private int id;
     private String content;
     private String author;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
     private int threadId;
     

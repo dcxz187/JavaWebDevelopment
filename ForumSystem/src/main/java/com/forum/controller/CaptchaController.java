@@ -1,25 +1,21 @@
-package com.forum.servlet;
+package com.forum.controller;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.Serial;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-@WebServlet("/api/captcha")
-public class CaptchaServlet extends HttpServlet {
-    @Serial
-    private static final long serialVersionUID = 1L;
-    
+@Controller
+public class CaptchaController {
+
     // 验证码字符集
     private static final String CHAR_SET = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
     // 验证码长度
@@ -28,10 +24,9 @@ public class CaptchaServlet extends HttpServlet {
     private static final int WIDTH = 120;
     // 图片高度
     private static final int HEIGHT = 40;
-    
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+
+    @GetMapping("/api/captcha")
+    public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 设置响应内容类型为JPEG图像
         response.setContentType("image/jpeg");
         
@@ -94,7 +89,7 @@ public class CaptchaServlet extends HttpServlet {
         // 将图像写入响应输出流
         ImageIO.write(bufferedImage, "jpeg", response.getOutputStream());
     }
-    
+
     /**
      * 生成随机验证码文本
      * @return 验证码文本
